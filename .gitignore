@@ -1,0 +1,12 @@
+
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+
+### Database ###
+db.sqlite3
+
+### PyCharm ###
+.idea/*

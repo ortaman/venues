@@ -1,0 +1,10 @@
+-r base.txt
+
+django-debug-toolbar
+django-extensions
+django-autocomplete-light
+ipython
+
+# django-cors-headers
+# coverage
+# flake8
