@@ -14,25 +14,25 @@ DEBUG = True
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-'''
+
+HOST = 'localhost'                             # to debug using pycharm
+DOCKER_HOST = os.environ.get('DOCKER_HOST')
+
+if DOCKER_HOST:
+    HOST = DOCKER_HOST                         # to run with docker
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'my_database',
+        'NAME': 'mydb',
         'USER': 'dbuser',
         'PASSWORD': 'dbpass',
-        'HOST': 'localhost',
-        'PORT': '',
+        'HOST': HOST,    # name the docker service
+        'PORT': '5432',
         'CONN_MAX_AGE': 600,
     }
 }
-'''
+
 
 INSTALLED_APPS += [
     'django_extensions',
@@ -46,6 +46,10 @@ MIDDLEWARE += [
 
 # This IP addresses ensure debug toolbar shows development environment
 INTERNAL_IPS = ('127.0.0.1', '10.0.2.2')
+
+
+ALLOWED_HOSTS = ['*']
+
 
 '''
 EMAIL_USE_TLS = True
