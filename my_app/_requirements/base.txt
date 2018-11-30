@@ -1,9 +1,9 @@
-
 django
 djangorestframework
 psycopg2
 psycopg2-binary
 Pillow
+foursquare
 
 # PyJWT
 # django-crontab
