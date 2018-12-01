@@ -25,4 +25,5 @@ class UserAdmin(admin.ModelAdmin):
     ordering = ('surnames', 'email')
     filter_horizontal = ()
 
+
 admin.site.register(User, UserAdmin)
