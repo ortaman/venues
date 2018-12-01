@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.core.mail import send_mail
 from django.utils.translation import gettext_lazy as _
 
 
@@ -79,7 +80,6 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):
 
 
 class User(BaseUser):
-    objects = UserManager()
 
     class Meta:
         verbose_name = ("Usuario")

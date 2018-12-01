@@ -1,13 +1,13 @@
 
-# from django.contrib.auth.models import User
+from rest_framework import status
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
-from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, RetrieveModelMixin
 
-# from common.paginations import MyCustomPagination
 from .models import User
-from .serializers import UserCreateSer
-from .permissions import AllowAnyCreateOrIsAuthenticated
+from .serializers import UserSerializer
+from .permissions import AllowAnyCreateOrIsAuthenticated, IsSelfUserOrReadOnly
 
 
 class UserViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, GenericViewSet):
@@ -17,19 +17,18 @@ class UserViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, Generi
     lookup_field = 'pk'
 
     queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-    serializer_class = UserCreateSer
     # authentication_classes = ("",)
     # pagination_class = MyCustomPagination
-    permission_classes = (AllowAnyCreateOrIsAuthenticated,)
+    permission_classes = (AllowAnyCreateOrIsAuthenticated, IsSelfUserOrReadOnly)
 
-    '''
     def create(self, request, *args, **kwargs):
-        return super(UserViewSet, self).create(request, *args, **kwargs)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
 
-    def get(self, request, *args, **kwargs):
-        return super(UserViewSet, self).retrieve(request, *args, **kwargs)
+        token = Token.objects.create(user=serializer.instance)
+        headers = self.get_success_headers(serializer.data)
 
-    def update(self, request, *args, **kwargs):
-        return super(UserViewSet, self).update(request, *args, **kwargs)
-    '''
+        return Response({'token': token.key}, status=status.HTTP_201_CREATED, headers=headers)
