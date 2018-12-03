@@ -30,7 +30,7 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):
     surnames = models.CharField(max_length=64, verbose_name=_('surnames'))
 
     phone = models.CharField(max_length=22, verbose_name=_('phone'))
-    gender = models.CharField(max_length=8, verbose_name=_('gender'))
+    gender = models.CharField(max_length=9, verbose_name=_('gender'))
 
     is_staff = models.BooleanField(
         _('staff status'),
