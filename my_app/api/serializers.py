@@ -20,9 +20,9 @@ class VenuesQuerySer(serializers.Serializer):
         longitude = obj.get("longitude")
         limit = obj.get("limit", 10)
 
-        if not latitude or not longitude:
+        if not query:
             return {
-                'query': query,
+                'll': '{0}, {1}'.format(latitude, longitude),
                 'limit': limit
             }
 
